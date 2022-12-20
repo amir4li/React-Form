@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Input from './Input';
 
 function Form() {
 
@@ -38,11 +39,12 @@ function Form() {
     };
 
     const formatAmount = (amount)=> {
-        return amount.toLocaleString('en-IN', {
+        const formattedAmount = amount.toLocaleString('en-IN', {
             maximumFractionDigits: 2,
             style: 'currency',
             currency: 'INR'
         });
+        return formattedAmount;
     };
 
     const totalDebitAmount = rows.reduce((total, row) => {
@@ -71,25 +73,22 @@ function Form() {
                     ))}
                 </select>
 
-                <input
-                    type="number"
-                    name="debitAmount"
+                <Input
+                    name={"debitAmount"}
                     value={row.debitAmount}
-                    onChange={(e)=> handleChange(e,index)}
-                    onBlur={(e)=> {
-                        e.target.value = formatAmount(e.target.value)
-                    }}
+                    index={index}
+                    changeHandler={handleChange}
+                    formatAmount={formatAmount}
                 />
 
-                <input
-                    type="number"
-                    name="creditAmount"
+                <Input
+                    name={"creditAmount"}
                     value={row.creditAmount}
-                    onChange={(e)=> handleChange(e,index)}
-                    onBlur={(e)=> {
-                        e.target.value = formatAmount(e.target.value)
-                    }}
+                    index={index}
+                    changeHandler={handleChange}
+                    formatAmount={formatAmount}
                 />
+                
                 <button onClick={()=> deleteRow(index)}>Remove</button>
             </div>
         ))}
